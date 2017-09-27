@@ -8,9 +8,17 @@ import org.springframework.util.Assert;
 
 import javax.inject.Inject;
 import java.util.*;
+import static com.translate.common.Constant.*;
 
 /**
  * Translate word service implmetion
+ * the English grammar:
+ * First condition:last char is "y",replace the "y" to "i" then append "es";
+ * Second condition:last char is "s,sh,ch,x",append "es";
+ * Third condition:last char is "o",append "s" after these words like "photo,piano,radio,zoo",append "es" after "potato" or "tomato";
+ * Forth condition:last char is "f" or "fe",append "s" after "belief,roof,safe,gulf",otherwise,remove the "f" or "fe" then append "ves" after
+ * "half,knife,leaf,wolf,wife,life,thief";
+ * Fifth conditon: seed word + "s";
  *
  * @Autor:Dave
  * @Create:2017-09-26 21:40
@@ -21,39 +29,10 @@ public class TranslateServiceImpl implements TranslateService{
     @Inject
     private WordRepository repository;
 
-    private static final Character[] SECOND_CONDITION_CHAR = new Character[]{'y'};
-    private static final String[] THIRD_CONDITION_CHAR = new String[]{"s","sh","ch","x"};
-    private static final Character[] FORTH_CONDITION_CHAR = new Character[]{'o'};
-    private static final String[] FIFTH_CONDITION_CHAR = new String[]{"f","fe"};
-
-    private static final Map<String,String> FORTH_CONDITION_WORDS = new HashMap<>();
-    private static final Map<String,String> FIFTH_CONDITION_WORDS = new HashMap<>();
-
-    static {
-        FORTH_CONDITION_WORDS.put("","");
-        FORTH_CONDITION_WORDS.put("","");
-        FORTH_CONDITION_WORDS.put("","");
-        FORTH_CONDITION_WORDS.put("","");
-        FORTH_CONDITION_WORDS.put("","");
-        FORTH_CONDITION_WORDS.put("","");
-
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-        FIFTH_CONDITION_WORDS.put("","");
-    }
-
     @Override
     public Word save(Word word) {
         Assert.notNull(word,"word is null!");
-        if(checkExist(word)){
+        if(!checkExist(word)){
             return repository.save(word);
         }
         return null;
@@ -71,43 +50,39 @@ public class TranslateServiceImpl implements TranslateService{
 
     protected boolean checkExist(Word word){
         Assert.notNull(word.getSeedWord(),"seed word is null!");
-        return repository.countBySeedWord(word.getSeedWord()) > 0;
+        return repository.countBySeedWord(word.getSeedWord()) != 0;
     }
 
     protected List<Word> getGeneralWord(Word word){
         Assert.notNull(word.getSeedWord(),"seed word is null!");
+        boolean flag = false;
         List<Word> list = new ArrayList<>();
         StringBuilder seedWord = new StringBuilder(word.getSeedWord().toLowerCase());
-        StringBuilder pluralWord = new StringBuilder();
+        StringBuilder pluralWord;
         List<String> pluralWordArray = new ArrayList<>();
         int len = seedWord.length();
-        boolean flag = false;
 
-        //secode condition:last char is "y",replace the "y" to "i" then append "es";
-        if(Arrays.binarySearch(SECOND_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0){
+        if(Arrays.binarySearch(Y_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0){
             pluralWord = seedWord.replace(len - 1,len,"ies");
             pluralWordArray.add(pluralWord.toString());
             flag = true;
         }
-        //third condition:last char is "s,sh,ch,x",append "es";
-        if((Arrays.binarySearch(THIRD_CONDITION_CHAR,seedWord.charAt(len -1)) > 0 ||
-                Arrays.binarySearch(THIRD_CONDITION_CHAR,seedWord.charAt(len - 2)) > 0) && !flag){
+
+        if((Arrays.binarySearch(SH_CONDITION_CHAR,seedWord.substring(len -1)) > 0 ||
+                Arrays.binarySearch(SH_CONDITION_CHAR,seedWord.substring(len - 2)) > 0) && !flag){
             pluralWord = seedWord.append("es");
             pluralWordArray.add(pluralWord.toString());
         }
-        //forth condition:last char is "o",append "s" after these words like "photo,piano,radio,zoo",append "es" after "potato" or "tomato";
-        if(Arrays.binarySearch(FORTH_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0 && !flag){
-            pluralWordArray = getKeyList(FORTH_CONDITION_WORDS,seedWord.toString());
+
+        if(Arrays.binarySearch(O_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0 && !flag){
+            pluralWordArray = getKeyList(O_CONDITION_WORDS,seedWord.toString());
         }
 
-        //fifth condition:last char is "f" or "fe",append "s" after "belief,roof,safe,gulf",otherwise,remove the "f" or "fe" then append "ves" after
-        //"half,knife,leaf,wolf,wife,life,thief"
-        if((Arrays.binarySearch(FIFTH_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0 ||
-                Arrays.binarySearch(FIFTH_CONDITION_CHAR,seedWord.charAt(len - 2)) > 0) && !flag){
-            pluralWordArray = getKeyList(FIFTH_CONDITION_WORDS,seedWord.toString());
+        if((Arrays.binarySearch(F_CONDITION_CHAR,seedWord.substring(len - 1)) > 0 ||
+                Arrays.binarySearch(F_CONDITION_CHAR,seedWord.substring(len - 2)) > 0) && !flag){
+            pluralWordArray = getKeyList(F_CONDITION_WORDS,seedWord.toString());
         }
 
-        //first conditon: seed word + "s"
         if(!flag){
             pluralWord = seedWord.append("s");
             pluralWordArray.add(pluralWord.toString());
@@ -143,7 +118,7 @@ public class TranslateServiceImpl implements TranslateService{
 
     public static void main(String[] args){
         StringBuilder a = new StringBuilder("tony");
-        a.replace(a.length() - 1,a.length(),"ies");
-        System.out.println(a);
+        String b = a.substring(a.length() - 1);
+        System.out.println(b);
     }
 }

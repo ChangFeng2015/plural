@@ -38,4 +38,5 @@ public class TranslateController {
         Word word = new Word(seedWord,"");
         return null;
     }
+
 }

@@ -16,16 +16,18 @@ import java.io.Serializable;
  * @Create:2017-09-26 21:10
  */
 @Entity
-@Table(name = "word")
+@Table(name = "word_list")
 public class Word implements Serializable{
 
     @Id
     private long id;
-    @Column(name = "seed_word")
+    @Column(name = "word")
     @NotBlank
     private String seedWord;
     @Column(name = "plural_word")
     private String pluralWord;
+
+    public Word(){}
 
     public Word(String seedWord){
         this.seedWord = seedWord;
