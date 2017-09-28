@@ -2,7 +2,7 @@
 translate the word to plural form 
 
 
-这是一套开源的名词单数变复数的系统
+这是一套开源的名词单数变复数的系统<br>
 
 英语名词单数变复数的规则：
 一、绝大多数的可数名词的复数形式,是在该词末尾加上后辍-s. 读音变化：结尾是清辅音读[s],结尾是浊辅音或元音读[z]. 例：friend→friends; cat→cats; style→styles; sport→sports; piece→pieces
