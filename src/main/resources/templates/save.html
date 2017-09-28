@@ -1,50 +1,121 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <meta content="text/html;charset=UTF-8"></meta>
-    <title>登录页面</title>
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
-    <style type="text/css">
-        body {
-            padding-top: 50px;
-        }
-        .starter-template {
-            padding: 40px 15px;
-            text-align: center;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" />
+    <!--jquery库-->
+    <script src="js/jquery.min.js"></script>
+    <!--bootstrap库-->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="js/bootstrap/html5shiv.min.js"></script>
+    <script src="js/bootstrap/respond.min.js"></script>
+    <![endif]-->
+    <!--font-awesome字体库-->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!--页面加载进度条-->
+    <link href="css/pace/dataurl.css" rel="stylesheet" />
+    <script src="js/pace/pace.min.js"></script>
+    <!--平滑滚动到顶部库-->
+    <script src="js/jquery.scrolltopcontrol/scrolltopcontrol.js" type="text/javascript"></script>
+    <!--主要写的jquery拓展方法-->
+    <script src="js/jquery.extend.js" type="text/javascript"></script>
+    <!--主要写的css代码-->
+    <link href="css/default.css" rel="stylesheet" type="text/css" />
+    <!--主要写的js代码-->
+    <script src="js/default.js" type="text/javascript"></script>
 </head>
 <body>
-
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Spring Security演示</a>
+            <button type="button" class="navbar-toggle show pull-left" data-target="sidebar">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Plural</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/}"> 首页 </a></li>
-
+                <li><a href="translate.html">单数变复数</a></li>
+                <li><a href="save.html">添加特殊形式的单词变复数</a></li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </nav>
-<div class="container">
+<div class="container-fluid all">
+    <div class="sidebar">
+        <ul class="nav">
+            <li><a href="index.html">主页面</a></li>
+            <li><a href="translate.html">单数变复数</a></li>
+            <li><a href="save.html">添加特殊形式的单词变复数</a></li>
 
-    <div class="starter-template">
+        </ul>
+    </div>
+    <div class="maincontent row form-horizontal">
+        <!--我是主要内容 start-->
+        <ul class="breadcrumb">
+            <li class="active">Translate</li>
+        </ul>
+        <div class="col-sm-12">
+            <!--日期选择插件data-picker start-->
+            <div class="row" id="form-datepicker">
+                <div class="page-header text-center">
+                    <h2>英语名词单数变复数</h2>
+                </div>
 
-        <form name="form" th:action="@{/login}" action="/login" method="POST"> <!-- 3 -->
-            <div class="form-group">
-                <label for="username">账号</label>
-                <input type="text" class="form-control" name="username" value="" placeholder="账号" />
+
+                <div class="clearfix"></div>
+                <style>
+                    /*注意：如果位置有偏差，则做相应的调整*/
+                    .datepicker { margin-top: 50px; }
+                </style>
+                <script type="text/javascript">
+                    $(function () {
+
+                    })
+                </script>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-1 control-label">单词</label>
+                        <div class="col-sm-11 sandbox-container">
+                            <input type="text" class="form-control" placeholder="请输入名词的单数形式！">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-1 control-label">单词复数</label>
+                        <div class="col-sm-11 sandbox-container">
+                            <input type="text" class="form-control" placeholder="请输入名词的复数形式！">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <button id="fat-btn" data-loading-text="loading..." class="btn btn-success btn-lg btn-block">保存</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">密码</label>
-                <input type="password" class="form-control" name="password" placeholder="密码" />
-            </div>
-            <input type="submit" id="login" value="Login" class="btn btn-primary" />
-        </form>
+
+
+
+            <!--formhelper end-->
+        </div>
+        <!--我是主要内容 end-->
     </div>
 </div>
+<a href="#top" id="goTop"><i class="fa fa-angle-up fa-3x"></i></a>
+<a href="https://github.com/ChangFeng2015/plural">
+    <img class="forkme" src="image/forkme.png" alt="Fork me on GitHub">
+</a>
 </body>
 </html>
