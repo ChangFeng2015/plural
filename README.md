@@ -7,4 +7,4 @@ translate the word to plural form
 3.运行PluralApplication.java中main的方法，启动项目；
 4.访问本地的http://127.0.0.1:8081/swagger-ui.html#/
 界面如下：
-http://otivx9rbg.bkt.clouddn.com/Screenshot%20from%202017-09-28%2013:19:42.png
+![](http://otivx9rbg.bkt.clouddn.com/Screenshot%20from%202017-09-28%2013:19:42.png)
