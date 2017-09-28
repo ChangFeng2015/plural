@@ -28,9 +28,9 @@ public class TranslateServiceImplTest {
 
     @Test
     public void getWord() throws Exception {
-        Word data = new Word("lemon");
+        Word data = new Word("knife");
         List<Word> result = translateService.getWord(data);
-        Assert.assertNotEquals(0,result.size());
+        Assert.assertEquals("knives",result.get(0).getPluralWord());
     }
 
 }

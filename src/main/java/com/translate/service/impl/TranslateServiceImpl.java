@@ -72,15 +72,18 @@ public class TranslateServiceImpl implements TranslateService{
                 Arrays.binarySearch(SH_CONDITION_CHAR,seedWord.substring(len - 2)) > 0) && !flag){
             pluralWord = seedWord.append("es");
             pluralWordArray.add(pluralWord.toString());
+            flag = true;
         }
 
         if(Arrays.binarySearch(O_CONDITION_CHAR,seedWord.charAt(len - 1)) > 0 && !flag){
             pluralWordArray = getKeyList(O_CONDITION_WORDS,seedWord.toString());
+            flag = true;
         }
 
         if((Arrays.binarySearch(F_CONDITION_CHAR,seedWord.substring(len - 1)) > 0 ||
                 Arrays.binarySearch(F_CONDITION_CHAR,seedWord.substring(len - 2)) > 0) && !flag){
             pluralWordArray = getKeyList(F_CONDITION_WORDS,seedWord.toString());
+            flag = true;
         }
 
         if(!flag){
